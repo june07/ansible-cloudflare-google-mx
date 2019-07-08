@@ -1,0 +1,18 @@
+---
+- name: Create Google MX Records
+  cloudflare_dns:
+    zone: "{{ zone }}"
+    name: "{{ zone }}"
+    record: "{{ item.server }}"
+    value: "{{ item.server }}"
+    type: MX
+    priority: "{{ item.priority }}"
+    account_email: "{{ email }}"
+    account_api_token: "{{ cloudflare.apikey | replace('\n', '') }}"
+    state: present
+  loop:
+    - { server: ASPMX.L.GOOGLE.COM., priority: 1 }
+    - { server: ALT1.ASPMX.L.GOOGLE.COM., priority: 5 }
+    - { server: ALT2.ASPMX.L.GOOGLE.COM., priority: 5 }
+    - { server: ASPMX2.GOOGLEMAIL.COM., priority: 10 }
+    - { server: ASPMX3.GOOGLEMAIL.COM., priority: 10 }
